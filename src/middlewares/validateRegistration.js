@@ -1,4 +1,3 @@
-import bcrypt from 'bcrypt'
 import joi from 'joi'
 
 export async function validatePass(req, res, next){
@@ -8,6 +7,7 @@ export async function validatePass(req, res, next){
     } else {
         return res.send("as senhas não são iguais")
     }
+
 }
 
 export async function validateData(req, res, next){
@@ -22,12 +22,12 @@ export async function validateData(req, res, next){
         
         const validate = await schemaData.validateAsync(req.body)
 
-        // next()
+        next()
         
     } catch (error) {
         if(error.isJoi){
             console.log(error)
-            res.send("foi nn")
+            return res.send("erro no formato dos dados enviados")
         }
         res.send(error)
     }
