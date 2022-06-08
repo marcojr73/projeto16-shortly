@@ -1,4 +1,5 @@
 import connectDB from "../config/bank.js"
+import joi from "joi"
 
 export async function validateToken(req, res, next){
 
@@ -15,8 +16,6 @@ export async function validateToken(req, res, next){
         if (user.rows[0]===undefined) return res.status(402).send("token não encontrado")
 
         res.locals.user = user.rows[0]
-
-        // res.send(user.rows[0])
         
         next()
 
@@ -24,9 +23,23 @@ export async function validateToken(req, res, next){
         console.log(error)
     }
     
+}
 
+export async function validateUrl(req,res, next){
+    const {url} = req.body
+    
+    try {
+        const schemaUrl = joi.object({
+            url: joi.string().required().min(5)
+        })
 
-    res.locals.token = token
-    // res.locals.session = session
+        const validate = await schemaUrl.validateAsync({url})
+
+        next()
+        
+    } catch (error) {
+        console.log(error)
+    }
+
 
 }
