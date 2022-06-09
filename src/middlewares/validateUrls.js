@@ -3,7 +3,7 @@ import joi from "joi"
 
 export async function validateToken(req, res, next){
 
-    const token = req.headers.authorization.replace("Bearer", "").trim()
+    const token = req.headers.authorization?.replace("Bearer", "").trim()
     if (!token) return res.status(401).send("Token nao enviado")
     
     try {
@@ -40,6 +40,4 @@ export async function validateUrl(req,res, next){
     } catch (error) {
         console.log(error)
     }
-
-
 }
