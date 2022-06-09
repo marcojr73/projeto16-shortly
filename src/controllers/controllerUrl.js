@@ -48,7 +48,7 @@ export async function redirectUrl(req, res){
         const db = await connectDB()
         const url = await db.query(`SELECT "urlDefault", views FROM urls WHERE "urlShorted"=$1`,[urlShorted])
         const views = url.rows[0].views + 1
-        
+
         await db.query(`UPDATE urls SET views=$1 WHERE "urlShorted"=$2`,[views, urlShorted])
         res.redirect(url.rows[0].urlDefault)
 
@@ -63,8 +63,14 @@ export async function deleteUrl(req, res){
     
     const {id} = req.params
     
+
     try {
         
+        const db = await connectDB()
+        await db.query(`DELETE FROM urls WHERE id=$1`,[id])
+
+        res.sendStatus(204)
+
     } catch (error) {
         
     }

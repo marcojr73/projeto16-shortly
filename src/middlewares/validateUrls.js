@@ -41,3 +41,23 @@ export async function validateUrl(req,res, next){
         console.log(error)
     }
 }
+
+export async function validateUser(req, res, next){
+    const userId = res.locals.user.id
+    const {id} = req.params
+    
+    try {
+        const db = await connectDB()
+
+        const valid = await db.query(`SELECT "userId" FROM urls WHERE id=$1`, [id])
+
+        if(valid.rows[0].userId !== userId){
+            return res.sendStatus(401)
+        }
+
+        next()
+
+    } catch (error) {
+        res.sendStatus(404)
+    }
+}
