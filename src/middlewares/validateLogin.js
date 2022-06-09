@@ -8,18 +8,16 @@ export async function validateUser(req, res, next){
 
         const db = await connectDB()
         const user = await db.query(`SELECT * FROM users WHERE email=$1`,[email])
-        
         const passCorrect = bcrypt.compareSync(password, user.rows[0].password)
 
-        if(passCorrect){
-            res.locals.user = user.rows[0]
-            return next()
+        if(!passCorrect || user.rows[0].length === undefined){
+            return res.sendStatus(401)
         }
-
-        res.send("senha incorreta")
+        
+        res.locals.user = user.rows[0]
+        next()
         
     } catch (error) {
-        console.log(error)
-        res.send("usuário não esta cadastrado no sistema")
+        res.sendStatus(422)
     }
 }

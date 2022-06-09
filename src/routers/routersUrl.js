@@ -6,7 +6,7 @@ const routersUrl = Router()
 
 routersUrl.post("/urls/shorten",validateUrl, validateToken, generateUrl)
 routersUrl.get("/urls/:id", listUrl)
-routersUrl.get("/urls/open/:urlShorted", redirectUrl)
+routersUrl.get("/urls/open/:shortUrl", redirectUrl)
 routersUrl.delete("/urls/:id",validateToken, validateUser, deleteUrl)
 
 export default routersUrl

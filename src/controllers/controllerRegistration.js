@@ -17,7 +17,7 @@ export async function signUp(req, res){
                         [name, email, passCripty, date])
 
         const users = await db.query("SELECT * FROM users;")
-        res.send(201)
+        res.sendStatus(201)
 
     } catch (error) {
         res.sendStatus(422)

@@ -42,7 +42,7 @@ export async function listUrl(req, res){
 
 export async function redirectUrl(req, res){
     
-    const {urlShorted} = req.params
+    const urlShorted = req.params.shortUrl
     
     try {
         const db = await connectDB()
