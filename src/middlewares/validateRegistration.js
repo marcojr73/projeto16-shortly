@@ -1,5 +1,5 @@
-import joi from 'joi'
 import connectDB from '../config/bank.js'
+import { schemaData } from '../schemas/registrationSchemas.js'
 import { registrationRepository } from '../repositories/repositoryRegistration.js'
 
 export async function validatePass(req, res, next){
@@ -14,14 +14,8 @@ export async function validatePass(req, res, next){
 
 export async function validateData(req, res, next){
     try {
-        const schemaData = joi.object({
-            name: joi.string().min(3).required(),
-            email: joi.string().email().min(5).required(),
-            password: joi.required(),
-            confirmPassword: joi.required()
-        })
-        
         const validate = await schemaData.validateAsync(req.body)
+        
         next()
     } catch (error) {
         res.status(422).send("Dados enviados fora do padrão esperado")

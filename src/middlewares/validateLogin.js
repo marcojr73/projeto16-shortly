@@ -1,11 +1,14 @@
 import connectDB from "../config/bank.js"
 import bcrypt from "bcrypt"
 import { registrationRepository } from "../repositories/repositoryRegistration.js"
+import { schemaLog } from "../schemas/registrationSchemas.js"
 
 export async function validateUser(req, res, next){
     const {email, password} = req.body
 
     try {
+
+        const validate = await schemaLog.validateAsync(req.body)
 
         const db = await connectDB()
         const user = await registrationRepository.searchEmail(email)
@@ -21,6 +24,9 @@ export async function validateUser(req, res, next){
         next()
         
     } catch (error) {
+        if(error.isJoi){
+            return res.status(401).send("Dados enviados fora do padrão esperado")
+        }
         res.sendStatus(422)
     }
 }

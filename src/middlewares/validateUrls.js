@@ -1,6 +1,6 @@
 import connectDB from "../config/bank.js"
-import joi from "joi"
 import { urlsRepository } from "../repositories/repositoryurls.js"
+import { schemaUrl } from "../schemas/urlsSchemas.js"
 
 export async function validateToken(req, res, next){
 
@@ -28,10 +28,6 @@ export async function validateUrl(req,res, next){
     const {url} = req.body
     
     try {
-        const schemaUrl = joi.object({
-            url: joi.string().required().min(5)
-        })
-
         await schemaUrl.validateAsync({url})
 
         next()

@@ -1,5 +1,4 @@
 import { nanoid } from 'nanoid/non-secure'
-import connectDB from '../config/bank.js'
 import { urlsRepository } from '../repositories/repositoryurls.js'
 
 
