@@ -6,6 +6,7 @@ export async function listDataUser(req, res){
 
     try {
         const db = await connectDB()
+        
         const dataUser = await db.query(`
                                         SELECT urls."userId" AS id, users.name, SUM(urls.views) AS "visitCount"
                                         FROM urls
@@ -13,12 +14,13 @@ export async function listDataUser(req, res){
                                         WHERE "userId"=$1
                                         GROUP BY "userId", users.name
         `,[id])
-
+        
         const dataUrls = await db.query(`
                                         SELECT id, "urlShorted" AS "shortUrl", "urlDefault" AS url, views AS "visitCount" 
                                         FROM urls
                                         WHERE urls."userId"=$1`,[id])
 
+        
         const shortenedUrls = dataUrls.rows.map(dataUrl => {
             return(
                 {
@@ -26,10 +28,10 @@ export async function listDataUser(req, res){
                     shortUrl: dataUrl.shortUrl,
                     url: dataUrl.url,
                     visitCount: dataUrl.visitCount
-                  }
+                }
             )
-        })
-         
+        })    
+
         const list = {
             id: id,
             name: dataUser.rows[0].name,
@@ -40,8 +42,7 @@ export async function listDataUser(req, res){
         res.send(list)
          
     } catch (error) {
-        console.log(error)
-        res.sendStatus(404)
+        res.status(404).send("Usuário não encontrado")
     }
 
 
@@ -61,7 +62,7 @@ export async function listUsers(req, res){
 
         res.send(list.rows)
     } catch (error) {
-        res.send(error)
+        res.sendStatus(404)
     }
 
 }

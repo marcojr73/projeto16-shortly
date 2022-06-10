@@ -13,14 +13,14 @@ export async function validateToken(req, res, next){
                                      JOIN users ON users.id = sessions."userId"
                                      WHERE token=$1`,[token])
 
-        if (user.rows[0]===undefined) return res.status(402).send("token não encontrado")
+        if (user.rows[0]===undefined) return res.status(401).send("token não encontrado")
 
         res.locals.user = user.rows[0]
         
         next()
 
     } catch (error) {
-        console.log(error)
+        res.sendStatus(422)
     }
     
 }
@@ -33,12 +33,12 @@ export async function validateUrl(req,res, next){
             url: joi.string().required().min(5)
         })
 
-        const validate = await schemaUrl.validateAsync({url})
+        await schemaUrl.validateAsync({url})
 
         next()
         
     } catch (error) {
-        console.log(error)
+        res.status(422).send("Você não enviou uma url válida")
     }
 }
 
@@ -52,12 +52,12 @@ export async function validateUser(req, res, next){
         const valid = await db.query(`SELECT "userId" FROM urls WHERE id=$1`, [id])
 
         if(valid.rows[0].userId !== userId){
-            return res.sendStatus(401)
+            return res.status(401).send("Esta url não pertence ao usuário")
         }
 
         next()
 
     } catch (error) {
-        res.sendStatus(404)
+        res.status(404).send("url não encontrada")
     }
 }

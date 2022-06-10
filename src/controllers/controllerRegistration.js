@@ -26,7 +26,6 @@ export async function signUp(req, res){
 }
 
 export async function signIn(req, res){
-    const {email, password} = req.body
     const {user} = res.locals
 
     try {
@@ -38,7 +37,6 @@ export async function signIn(req, res){
         res.send(token)
 
     } catch (error) {
-        res.send(404)
-        console.log(error)
+        res.send(422)
     }
 }

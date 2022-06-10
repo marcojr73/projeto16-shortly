@@ -6,7 +6,7 @@ export async function validatePass(req, res, next){
     if(password==confirmPassword){
         next()
     } else {
-        return res.sendStatus(422)
+        return res.status(422).send("As senhas digitadas não conferem")
     }
 
 }
@@ -23,7 +23,7 @@ export async function validateData(req, res, next){
         const validate = await schemaData.validateAsync(req.body)
         next()
     } catch (error) {
-        res.sendStatus(422)
+        res.status(422).send("Dados enviados fora do padrão esperado")
     }
 
 }
@@ -34,7 +34,7 @@ export async function validateMail(req, res, next){
     try {
         const db = await connectDB()
         const validate = await db.query(`SELECT * FROM users WHERE email=$1`,[email])
-        if(validate.rows.length !== 0) return res.sendStatus(422)
+        if(validate.rows.length !== 0) return res.status(422).send("Este endereço de email não esta cadastrado")
         next()
     } catch (error) {
         res.sendStatus(422)

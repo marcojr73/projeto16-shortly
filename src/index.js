@@ -12,8 +12,8 @@ app.use(express.json())
 dotenv.config()
 
 app.use(routerRegistration)
-app.use(routersUser)
 app.use(routersUrl)
+app.use(routersUser)
 
 
 const {PORT} = process.env

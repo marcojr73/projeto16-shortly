@@ -17,8 +17,7 @@ export async function generateUrl(req, res){
         res.sendStatus(201)
 
     } catch (error) {
-        console.log(error)
-        res.send(error)
+        res.sendStatus(422)
     }
 }
 
@@ -29,13 +28,11 @@ export async function listUrl(req, res){
     try {
         const db = await connectDB()
         const url = await db.query(`SELECT id, "urlShorted", "urlDefault" FROM urls WHERE id=$1`,[id])
-        
-        if(url.rows[0].length===undefined) return res.sendStatus(404)
-        
+        if(url.rows.length===0) return res.sendStatus(404)
         res.send(url.rows[0])
 
     } catch (error) {
-        console.log(error)
+        res.status(404).send("Url não encontrada")
     }
 
 }
@@ -54,7 +51,7 @@ export async function redirectUrl(req, res){
 
     } catch (error) {
         console.log(error)
-        res.sendStatus(404)
+        res.status(404).send("url não encontrada")
     }
 
 }
@@ -69,7 +66,7 @@ export async function deleteUrl(req, res){
         const db = await connectDB()
         await db.query(`DELETE FROM urls WHERE id=$1`,[id])
 
-        res.sendStatus(204)
+        res.status(204).send("Url deletada com sucesso")
 
     } catch (error) {
         
