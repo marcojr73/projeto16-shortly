@@ -1,5 +1,6 @@
 import joi from 'joi'
 import connectDB from '../config/bank.js'
+import { registrationRepository } from '../repositories/repositoryRegistration.js'
 
 export async function validatePass(req, res, next){
     const {password, confirmPassword} = req.body
@@ -33,10 +34,11 @@ export async function validateMail(req, res, next){
     const {email} = req.body
     try {
         const db = await connectDB()
-        const validate = await db.query(`SELECT * FROM users WHERE email=$1`,[email])
-        if(validate.rows.length !== 0) return res.status(422).send("Este endereço de email não esta cadastrado")
+        const validate = await registrationRepository.searchEmail(email)
+        if(validate.rows.length !== 0) return res.status(422).send("Este endereço de email já esta sendo usado")
         next()
     } catch (error) {
+        console.log(error)
         res.sendStatus(422)
     }
 

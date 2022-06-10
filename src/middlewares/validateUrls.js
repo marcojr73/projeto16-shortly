@@ -1,5 +1,6 @@
 import connectDB from "../config/bank.js"
 import joi from "joi"
+import { urlsRepository } from "../repositories/repositoryurls.js"
 
 export async function validateToken(req, res, next){
 
@@ -9,9 +10,7 @@ export async function validateToken(req, res, next){
     try {
         const db = await connectDB()
 
-        const user = await db.query(`SELECT users.id from sessions
-                                     JOIN users ON users.id = sessions."userId"
-                                     WHERE token=$1`,[token])
+        const user = await urlsRepository.getUser(token) 
 
         if (user.rows[0]===undefined) return res.status(401).send("token não encontrado")
 
@@ -20,7 +19,7 @@ export async function validateToken(req, res, next){
         next()
 
     } catch (error) {
-        res.sendStatus(422)
+        res.status(422).send("Você não enviou um token válido")
     }
     
 }
@@ -47,9 +46,8 @@ export async function validateUser(req, res, next){
     const {id} = req.params
     
     try {
-        const db = await connectDB()
 
-        const valid = await db.query(`SELECT "userId" FROM urls WHERE id=$1`, [id])
+        const valid = await urlsRepository.getUrl(id)
 
         if(valid.rows[0].userId !== userId){
             return res.status(401).send("Esta url não pertence ao usuário")

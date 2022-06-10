@@ -1,5 +1,6 @@
 import connectDB from "../config/bank.js"
 import bcrypt from "bcrypt"
+import { registrationRepository } from "../repositories/repositoryRegistration.js"
 
 export async function validateUser(req, res, next){
     const {email, password} = req.body
@@ -7,7 +8,7 @@ export async function validateUser(req, res, next){
     try {
 
         const db = await connectDB()
-        const user = await db.query(`SELECT * FROM users WHERE email=$1`,[email])
+        const user = await registrationRepository.searchEmail(email)
         if(user.rows.length !== 1){
             return res.status(401).send("Endereço de email não cadastrado")
         }

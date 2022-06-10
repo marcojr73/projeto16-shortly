@@ -1,14 +1,12 @@
-import connectDB from "../config/bank.js";
+import { userRepository } from "../repositories/repositoryUser.js"
 
 export async function sendDataUser(req, res, next){
     const {id} =  req.params
     try {
-        const db = await connectDB()
-        const user = await db.query(`SELECT * FROM urls WHERE "userId"=$1`,[id])
+        const user = await userRepository.getUser(id)
 
         if(user.rows.length === 0) {
-            
-            const name = await db.query(`SELECT * FROM users WHERE id=$1`,[id])
+            const name = await userRepository.getName(id)
             
             if(name.rows.length === 0){
                 return res.status(404).send("Usuário não cadastrado")
