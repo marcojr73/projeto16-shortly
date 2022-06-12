@@ -37,6 +37,7 @@ export async function listUrl(req, res){
 export async function redirectUrl(req, res){
     
     const urlShorted = req.params.shortUrl
+    console.log(urlShorted)
     
     try {
         const url = await urlsRepository.getUrlShort(urlShorted)
