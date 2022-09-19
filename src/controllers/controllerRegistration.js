@@ -16,7 +16,8 @@ export async function signUp(req, res){
         res.sendStatus(201)
 
     } catch (error) {
-        res.sendStatus(422)
+        console.log(error)
+        res.status(422).send("não foi possivel processsar")
     }
 
 }
