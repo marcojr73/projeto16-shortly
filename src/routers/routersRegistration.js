@@ -5,7 +5,7 @@ import { validateData, validateMail, validatePass } from "../middlewares/validat
 
 const routersRegistration = Router()
 
-routersRegistration.post("/signup",validatePass, validateMail, validateData, signUp)
-routersRegistration.post("/signin",validateUser, signIn)
+routersRegistration.post("/sign-up",validatePass, validateMail, validateData, signUp)
+routersRegistration.post("/sign-in",validateUser, signIn)
 
 export default routersRegistration

@@ -18,5 +18,5 @@ app.use(routersUser)
 
 const {PORT} = process.env
 app.listen(PORT, ()=> {
-    console.log("SERVER UP ON PORT ", PORT)
+    console.log("SERVER UP ON PORT", PORT)
 })
