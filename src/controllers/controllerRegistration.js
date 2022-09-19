@@ -7,11 +7,10 @@ import { registrationRepository } from "../repositories/repositoryRegistration.j
 export async function signUp(req, res){
 
     const {name, email, password} = req.body
-    const date = dayjs().format('DD/MM/YYYY') 
     const passCripty = bcrypt.hashSync(password, 10)
     
     try {
-        await registrationRepository.insertUser(name, email, passCripty, date)
+        await registrationRepository.insertUser(name, email, passCripty)
 
         res.sendStatus(201)
 

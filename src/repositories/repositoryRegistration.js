@@ -6,10 +6,10 @@ async function searchEmail(email) {
 	return db.query(`SELECT * FROM users WHERE email=$1`,[email]);
 }
 
-async function insertUser(name, email, passCripty, date){
-    return db.query(`INSERT INTO users (name, email, password, "createdAt") 
-    VALUES ($1, $2, $3, $4);`,
-    [name, email, passCripty, date])    
+async function insertUser(name, email, passCripty){
+    return db.query(`INSERT INTO users (name, email, password) 
+    VALUES ($1, $2, $3);`,
+    [name, email, passCripty])    
 }
 
 async function insertSession(id, token){
