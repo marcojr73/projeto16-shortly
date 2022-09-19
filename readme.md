@@ -8,7 +8,7 @@
 - Vamos ser francos: passar uma URL gigante de um meme, vídeo ou qualquer outra coisa na internet para um(a) amigo(a) é uma situação embaraçosa. Tudo piora quando a pessoa que recebe o link não tem como abri-lo diretamente e é obrigada a escrever o link caractere por caractere.
 - Para evitar este tipo de situação e de quebra conseguir monitorar os acessos a este link, surgiu o Shortly
 
-- [Veja meu deploy na heroku aqui]()
+- [Veja meu deploy na heroku aqui](https://shortly-api-mj.herokuapp.com/)
 
 ***
 
