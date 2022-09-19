@@ -7,17 +7,17 @@ export async function validatePass(req, res, next){
     if(password==confirmPassword){
         next()
     } else {
+        console.log("As senhas digitadas não conferem")
         return res.status(422).send("As senhas digitadas não conferem")
     }
-
 }
 
 export async function validateData(req, res, next){
     try {
         const validate = await schemaData.validateAsync(req.body)
-        
         next()
     } catch (error) {
+        console.log(error)
         res.status(422).send("Dados enviados fora do padrão esperado")
     }
 
